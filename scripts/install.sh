@@ -62,7 +62,7 @@ usage() {
 soc-stack v${SOC_STACK_VERSION}
 
 Usage:
-  sudo bash install.sh [flags]
+   bash install.sh [flags]
 
 Flags:
   --components LIST     CSV of components or "all" (default: all)

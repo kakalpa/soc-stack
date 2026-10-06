@@ -38,13 +38,13 @@ rsync -a --delete \
 # Wipe any stale state from prior CI runs - matrix jobs share /tmp/soc-stack-test/
 # and a left-behind state file would cause install.sh's idempotency check to skip
 # the actual deploy and falsely claim success.
-# (gh-runner sudoers allows bash, not rm directly, so wrap in sudo bash -c.)
+# (gh-runner sudoers allows bash, not rm directly, so wrap in  bash -c.)
 # shellcheck disable=SC2029
-ssh "${PROXMOX_HOST}" "sudo bash -c 'rm -f /tmp/soc-stack-test/state/${TARGET}.json /tmp/soc-stack-test/vmid-${TARGET}.txt'"
+ssh "${PROXMOX_HOST}" " bash -c 'rm -f /tmp/soc-stack-test/state/${TARGET}.json /tmp/soc-stack-test/vmid-${TARGET}.txt'"
 
 # Set up test env (allocates VMID)
 # shellcheck disable=SC2029
-ssh "${PROXMOX_HOST}" "sudo bash ${WORK_DIR}/tests/integration/setup-test-env.sh '${TARGET}'"
+ssh "${PROXMOX_HOST}" " bash ${WORK_DIR}/tests/integration/setup-test-env.sh '${TARGET}'"
 
 # Determine components flag and VMID
 if [[ "${TARGET}" == "all" ]]; then
@@ -59,7 +59,7 @@ fi
 
 # Run the install
 # shellcheck disable=SC2029
-ssh "${PROXMOX_HOST}" "sudo bash ${WORK_DIR}/scripts/install.sh \
+ssh "${PROXMOX_HOST}" " bash ${WORK_DIR}/scripts/install.sh \
   --components ${COMPONENTS} --preset minimal \
   --bridge vmbr0 --storage local-lvm --ip-mode dhcp \
   --vmid-start ${VMID} \
@@ -75,7 +75,7 @@ if [[ "${TARGET}" == "all" ]]; then
     ssh "${PROXMOX_HOST}" "bash ${WORK_DIR}/tests/integration/assert-${c}.sh /tmp/soc-stack-test/result.json"
   done
   # shellcheck disable=SC2029
-  ssh "${PROXMOX_HOST}" "sudo bash ${WORK_DIR}/tests/integration/assert-all-integrations.sh /tmp/soc-stack-test/result.json"
+  ssh "${PROXMOX_HOST}" " bash ${WORK_DIR}/tests/integration/assert-all-integrations.sh /tmp/soc-stack-test/result.json"
 else
   # shellcheck disable=SC2029
   ssh "${PROXMOX_HOST}" "bash ${WORK_DIR}/tests/integration/assert-${TARGET}.sh /tmp/soc-stack-test/result.json"

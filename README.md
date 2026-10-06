@@ -58,15 +58,15 @@ Keywords: SOC lab, security operations center, Proxmox homelab, Wazuh SIEM, TheH
 **Full stack** (every component, sensible defaults):
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh |  bash
 ```
 
-When run from a local TTY as `sudo bash install.sh`, the installer opens a component picker if you did not pass `--components` or `--manifest`. Piped, CI, and agent-driven installs remain non-interactive and default to the full stack.
+When run from a local TTY as ` bash install.sh`, the installer opens a component picker if you did not pass `--components` or `--manifest`. Piped, CI, and agent-driven installs remain non-interactive and default to the full stack.
 
 **Custom subset:**
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh | sudo bash -s -- \
+curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh |  bash -s -- \
   --components wazuh,thehive-cortex,misp \
   --preset standard \
   --bridge vmbr0 --storage local-lvm
@@ -75,7 +75,7 @@ curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.s
 **Agent-driven** (fully non-interactive, structured output):
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh | sudo bash -s -- \
+curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh |  bash -s -- \
   --components all \
   --preset minimal \
   --bridge vmbr0 --storage local-lvm --ip-mode dhcp \
@@ -88,7 +88,7 @@ Prefer to read before you run? Clone the repo and execute the same orchestrator 
 ```bash
 git clone https://github.com/solomonneas/soc-stack.git
 cd soc-stack
-sudo bash install.sh --components all --dry-run   # validate + plan, deploy nothing
+ bash install.sh --components all --dry-run   # validate + plan, deploy nothing
 ```
 
 After install:
@@ -162,7 +162,7 @@ The exact result-JSON schema is documented in [`docs/design/specs/2026-05-15-soc
 
 Designed so an AI agent can SSH into a Proxmox host and one-shot a SOC. The full agent surface:
 
-- **Stdin is closed** under `curl | sudo bash`; the installer auto-detects this and enables `--non-interactive` mode. Every prompt becomes a flag, every default becomes an answer.
+- **Stdin is closed** under `curl |  bash`; the installer auto-detects this and enables `--non-interactive` mode. Every prompt becomes a flag, every default becomes an answer.
 - **Exit codes** are stable: 0 = success, 1 = preflight (bad host), 2 = validation (bad flags), 3 = component failed, 4 = integration failed, 5 = mixed state.
 - **Result JSON schema** is documented in [`docs/design/specs/2026-05-15-soc-stack-unification-design.md`](docs/design/specs/2026-05-15-soc-stack-unification-design.md).
 - **Idempotency**: re-running with the same flags exits in seconds if everything is already deployed (`status: "deployed"` in state). `--force` triggers redeploy.
@@ -274,45 +274,45 @@ The installer auto-installs `jq`, `curl`, `wget`, and `openssl` if missing.
 
 **Re-run for a single component:**
 ```bash
-sudo bash install.sh --components misp --force
+ bash install.sh --components misp --force
 ```
 
 **Re-run the integration phase (after fixing a peer):**
 ```bash
-sudo bash install.sh --components all
+ bash install.sh --components all
 ```
 Already-deployed components are skipped by the idempotency check, so a plain re-run goes straight to cross-component wiring.
 
 **Validate without deploying:**
 ```bash
-sudo bash install.sh --components all --dry-run
+ bash install.sh --components all --dry-run
 ```
 
 **Opt-in post-install health report** (read-only; re-runs each component's `verify.sh`, checks LXC state, integration status, and artifact freshness; does not deploy or integrate):
 ```bash
-sudo bash install.sh --health-report
-# optional: sudo bash install.sh --health-report --components wazuh,misp
+ bash install.sh --health-report
+# optional:  bash install.sh --health-report --components wazuh,misp
 # schedule periodically yourself (cron/systemd timer) — off by default
 ```
 
 **Remove a single component:**
 ```bash
-sudo bash scripts/components/misp/destroy.sh
+ bash scripts/components/misp/destroy.sh
 ```
 This stops and destroys the component's LXC and removes its state file. Other components keep running; re-run the installer afterwards if peers should drop their wiring to it.
 
 **Tear down everything:**
 ```bash
 for comp in mcp dashboards zeek-suricata misp thehive-cortex wazuh; do
-  sudo bash scripts/components/${comp}/destroy.sh
+   bash scripts/components/${comp}/destroy.sh
 done
-sudo rm -rf /var/lib/soc-stack /root/soc-stack.json /root/mcp-clients.json /root/soc-stack-navigator.json
+ rm -rf /var/lib/soc-stack /root/soc-stack.json /root/mcp-clients.json /root/soc-stack-navigator.json
 ```
 The final `rm` removes state, generated secrets, and the emitted JSON; skip it if you want credential recovery later.
 
 **Upgrade:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh |  bash
 ```
 Re-running the installer from a newer checkout is the upgrade path: already-deployed components are left alone, new components deploy, and integration re-wires. To pick up a new version of one component, destroy it and re-run with `--components <name>`. The installer never auto-updates a running component in place.
 
@@ -320,7 +320,7 @@ Re-running the installer from a newer checkout is the upgrade path: already-depl
 
 - **Why not install each tool by hand?** You can, and the official docs for Wazuh, TheHive, MISP, and Suricata are good. But six installs plus the integrations between them (alert forwarding, analyzer wiring, IOC feeds, log shipping) is a multi-day project that breaks the next time you rebuild. SOC Stack makes the whole thing one reproducible command.
 - **Why not a single all-in-one SIEM VM (SecurityOnion, Wazuh OVA, etc.)?** Those are excellent and purpose-built. SOC Stack is different on purpose: each tool lives in its own LXC you can scale, snapshot, or destroy independently, the components are the real upstream projects (not a fork), and the cross-tool integrations are explicit and inspectable rather than baked into one appliance.
-- **Why not Ansible or Terraform?** Nothing stops you, and a config-management rewrite is a reasonable future direction. The current design favors plain, auditable bash you can read top to bottom and a `curl | sudo bash` path an agent can drive without extra tooling on the host. State files, not a state backend, drive idempotency.
+- **Why not Ansible or Terraform?** Nothing stops you, and a config-management rewrite is a reasonable future direction. The current design favors plain, auditable bash you can read top to bottom and a `curl |  bash` path an agent can drive without extra tooling on the host. State files, not a state backend, drive idempotency.
 - **Why not run it on Docker / Kubernetes directly?** Several components already use Docker Compose inside their LXC. The Proxmox LXC layer gives each tool isolation, its own IP, and snapshot/rollback at the container level, which matches how a homelab SOC is actually operated.
 
 ## What soc-stack is not

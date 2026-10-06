@@ -23,7 +23,7 @@ cd /root/soc-stack
 
 # 3. Run the bootstrap
 export GITHUB_RUNNER_TOKEN=<token-from-step-1>
-sudo -E bash tools/setup-ci-runner.sh
+ -E bash tools/setup-ci-runner.sh
 ```
 
 Effect:
@@ -48,8 +48,8 @@ Tokens are one-shot. If you need to re-register (e.g., after wiping the LXC):
 ```bash
 # Inside the runner LXC:
 cd /home/runner/actions-runner
-sudo -u runner ./svc.sh stop
-sudo -u runner ./config.sh remove --token <removal-token-from-github-ui>
+ -u runner ./svc.sh stop
+ -u runner ./config.sh remove --token <removal-token-from-github-ui>
 # Then re-run setup-ci-runner.sh on the Proxmox host with a new registration token.
 ```
 

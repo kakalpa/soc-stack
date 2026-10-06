@@ -2,8 +2,8 @@
 # install.sh - repo-root entrypoint
 #
 # Two invocation modes:
-#   1) Local checkout:  sudo bash install.sh [flags]
-#   2) curl piped:      curl -sSL .../install.sh | sudo bash -s -- [flags]
+#   1) Local checkout:   bash install.sh [flags]
+#   2) curl piped:      curl -sSL .../install.sh |  bash -s -- [flags]
 #
 # In mode 2, we self-bootstrap by cloning the repo to /tmp and re-exec'ing
 # scripts/install.sh from there.

@@ -28,7 +28,7 @@ These are known trade-offs under the threat model above, not oversights:
 - **Plain HTTP between components.** TheHive (9000), Cortex (9001), and the dashboards serve HTTP on the internal bridge. Adding self-signed TLS everywhere would mostly add `-k` flags, not security, on a single-host bridge. MISP and Wazuh serve HTTPS with self-signed certificates.
 - **`curl -k` against localhost.** Health checks and API calls inside an LXC talk to `https://localhost` with self-signed certs; verification is skipped because there is nothing meaningful to verify.
 - **Secrets exist in plaintext on the host.** `/var/lib/soc-stack/secrets/` is the recovery story. If your root filesystem is compromised, these files are the least of your problems, but know they are there before imaging or backing up the host.
-- **The `curl | sudo bash` install.** Convenient, and exactly as trustworthy as the repo it fetches. If that bothers you (reasonable), clone the repo, read `install.sh`, and run it locally; the behavior is identical.
+- **The `curl |  bash` install.** Convenient, and exactly as trustworthy as the repo it fetches. If that bothers you (reasonable), clone the repo, read `install.sh`, and run it locally; the behavior is identical.
 
 ## What you should do after install
 

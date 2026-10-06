@@ -24,7 +24,7 @@ log "tearing down ${TARGET} on ${PROXMOX_HOST}"
 # shellcheck disable=SC2029
 ssh "${PROXMOX_HOST}" "
   if [[ -f '${WORK_DIR}/tests/integration/destroy-test-env.sh' ]]; then
-    sudo bash '${WORK_DIR}/tests/integration/destroy-test-env.sh' '${TARGET}' 2>/dev/null || true
+     bash '${WORK_DIR}/tests/integration/destroy-test-env.sh' '${TARGET}' 2>/dev/null || true
   fi
   pct list 2>/dev/null | awk 'NR>1 && \$1+0 >= 9000 && \$1+0 <= 9099 {print \$1}' \
     | xargs -r -I{} bash -c 'pct stop {} 2>/dev/null; pct destroy {} 2>/dev/null' || true

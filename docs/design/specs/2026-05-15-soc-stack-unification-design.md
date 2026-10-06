@@ -45,10 +45,10 @@ Make one path - `install.sh` - the only path. Designed so an agent can SSH into 
 ```bash
 # Default: install everything sensible
 curl -sSL https://raw.githubusercontent.com/solomonneas/soc-stack/main/install.sh \
-  | sudo bash
+  |  bash
 
 # Agent-style, explicit
-curl -sSL .../install.sh | sudo bash -s -- \
+curl -sSL .../install.sh |  bash -s -- \
     --components wazuh,thehive-cortex,misp,zeek-suricata,dashboards,mcp \
     --preset standard \
     --bridge vmbr0 \
@@ -58,7 +58,7 @@ curl -sSL .../install.sh | sudo bash -s -- \
     --mcp-config-out /root/mcp-clients.json
 
 # Manifest mode (complex / repeatable)
-curl -sSL .../install.sh | sudo bash -s -- --manifest /root/soc-stack-manifest.json
+curl -sSL .../install.sh |  bash -s -- --manifest /root/soc-stack-manifest.json
 ```
 
 ### Flags

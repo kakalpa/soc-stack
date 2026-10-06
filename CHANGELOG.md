@@ -83,7 +83,7 @@ Foundation. Wazuh deployable end-to-end via the unified orchestrator.
 - `scripts/components/wazuh/`: canonical component module (6 files)
 - `tests/unit/`: bats-core 1.11.0 vendored, mocked Proxmox binaries
 - `tests/integration/{setup,destroy}-test-env.sh`, `assert-wazuh.sh`
-- `install.sh` at repo root: wrapper for `curl | sudo bash` invocation
+- `install.sh` at repo root: wrapper for `curl |  bash` invocation
 - `docs/design/specs/2026-05-15-soc-stack-unification-design.md`: full design spec
 - `docs/design/plans/2026-05-15-soc-stack-foundations-plan-1.md`: 31-task plan
 

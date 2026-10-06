@@ -32,7 +32,7 @@ Get a token here (it expires in 1 hour):
   https://github.com/solomonneas/soc-stack/settings/actions/runners/new
 Then:
   export GITHUB_RUNNER_TOKEN=<token>
-  sudo -E bash tools/setup-ci-runner.sh
+   -E bash tools/setup-ci-runner.sh
 EOF
   exit 1
 fi
@@ -155,7 +155,7 @@ if ! pct exec "${VMID}" -- test -f /home/runner/.runner; then
     chown -R runner:runner /home/runner/actions-runner
   '
   RUNNER_NAME="soc-stack-$(hostname)"
-  pct exec "${VMID}" -- sudo -u runner bash -c "
+  pct exec "${VMID}" --  -u runner bash -c "
     cd /home/runner/actions-runner
     ./config.sh --unattended --replace \
       --url https://github.com/solomonneas/soc-stack \

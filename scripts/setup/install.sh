@@ -145,7 +145,7 @@ trap cleanup EXIT
 check_root() {
   if [[ "$(id -u)" -ne 0 ]]; then
     msg_error "This script must be run as root"
-    echo -e "  Run: ${CY}sudo bash install.sh${CL}"
+    echo -e "  Run: ${CY} bash install.sh${CL}"
     exit 1
   fi
 }
