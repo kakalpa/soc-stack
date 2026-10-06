@@ -143,8 +143,8 @@ if ! pct exec "${VMID}" -- test -f /home/runner/.runner; then
   pct exec "${VMID}" -- bash -c '
     set -e
     export DEBIAN_FRONTEND=noninteractive
-    apt-get update -qq
-    apt-get install -y -qq curl jq tar libicu70 rsync git
+    apt update -qq
+    apt install -y -qq curl jq tar libicu70 rsync git
     useradd -m -s /bin/bash runner || true
     install -d -m 0755 -o runner -g runner /home/runner/actions-runner
     cd /home/runner/actions-runner

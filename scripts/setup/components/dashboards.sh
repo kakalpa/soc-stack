@@ -45,19 +45,19 @@ fi
 # ── System Prep ───────────────────────────────────────────────────────────────
 msg_info "Updating system packages"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq &>/dev/null
-apt-get upgrade -y -qq &>/dev/null
+apt update -qq &>/dev/null
+apt upgrade -y -qq &>/dev/null
 msg_ok "System updated"
 
 msg_info "Installing prerequisites"
-apt-get install -y -qq curl git nginx python3 python3-pip python3-venv &>/dev/null
+apt install -y -qq curl git nginx python3 python3-pip python3-venv &>/dev/null
 msg_ok "Prerequisites installed"
 
 # ── Install Node.js 20 ───────────────────────────────────────────────────────
 if ! command -v node &>/dev/null || [[ "$(node -v | cut -d. -f1 | tr -d v)" -lt 20 ]]; then
   msg_info "Installing Node.js 20"
   curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &>/dev/null
-  apt-get install -y -qq nodejs &>/dev/null
+  apt install -y -qq nodejs &>/dev/null
   msg_ok "Node.js $(node -v) installed"
 else
   msg_ok "Node.js $(node -v) already installed"

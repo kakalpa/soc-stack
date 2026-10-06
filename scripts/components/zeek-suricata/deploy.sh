@@ -38,8 +38,8 @@ if systemctl is-active --quiet zeek 2>/dev/null \
 fi
 
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq
-apt-get install -y -qq curl wget gnupg software-properties-common jq
+apt update -qq
+apt install -y -qq curl wget gnupg software-properties-common jq
 
 # --- Install Zeek (official package repo) ---
 if ! command -v zeek >/dev/null 2>&1; then
@@ -49,8 +49,8 @@ if ! command -v zeek >/dev/null 2>&1; then
     > /etc/apt/sources.list.d/security_zeek.list
   curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_22.04/Release.key \
     | gpg --dearmor -o /etc/apt/trusted.gpg.d/security_zeek.gpg
-  apt-get update -qq
-  apt-get install -y -qq zeek-lts
+  apt update -qq
+  apt install -y -qq zeek-lts
 fi
 export PATH="/opt/zeek/bin:${PATH}"
 # shellcheck disable=SC2016
@@ -100,7 +100,7 @@ systemctl enable --now zeek.service
 # package which conflicts with the bundled copy.
 if ! command -v suricata >/dev/null 2>&1; then
   log "installing Suricata from Ubuntu repos"
-  apt-get install -y -qq suricata
+  apt install -y -qq suricata
 fi
 if [[ -f /etc/suricata/suricata.yaml ]]; then
   sed -i "s/- interface: eth0/- interface: ${IFACE}/" /etc/suricata/suricata.yaml

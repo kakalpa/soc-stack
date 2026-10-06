@@ -28,12 +28,12 @@ fi
 # ── System Prep ───────────────────────────────────────────────────────────────
 msg_info "Updating system packages"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq &>/dev/null
-apt-get upgrade -y -qq &>/dev/null
+apt update -qq &>/dev/null
+apt upgrade -y -qq &>/dev/null
 msg_ok "System updated"
 
 msg_info "Installing prerequisites"
-apt-get install -y -qq curl apt-transport-https unzip wget libcap2-bin \
+apt install -y -qq curl apt-transport-https unzip wget libcap2-bin \
   software-properties-common gnupg lsb-release &>/dev/null
 msg_ok "Prerequisites installed"
 

@@ -27,9 +27,9 @@ fi
 # ── System Prep ───────────────────────────────────────────────────────────────
 msg_info "Updating system packages"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq &>/dev/null
-apt-get upgrade -y -qq &>/dev/null
-apt-get install -y -qq curl wget gnupg software-properties-common &>/dev/null
+apt update -qq &>/dev/null
+apt upgrade -y -qq &>/dev/null
+apt install -y -qq curl wget gnupg software-properties-common &>/dev/null
 msg_ok "System updated"
 
 # ── Zeek Installation ────────────────────────────────────────────────────────
@@ -42,11 +42,11 @@ curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_22.0
 echo "deb [signed-by=/usr/share/keyrings/zeek.gpg] http://download.opensuse.org/repositories/security:/zeek/xUbuntu_22.04/ /" \
   > /etc/apt/sources.list.d/zeek.list
 
-apt-get update -qq &>/dev/null
+apt update -qq &>/dev/null
 msg_ok "Zeek repository added"
 
 msg_info "Installing Zeek"
-apt-get install -y -qq zeek &>/dev/null
+apt install -y -qq zeek &>/dev/null
 msg_ok "Zeek installed"
 
 # ── Configure ─────────────────────────────────────────────────────────────────

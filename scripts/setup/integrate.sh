@@ -208,8 +208,8 @@ if [[ -n "$ZEEK_IP" && -n "$WAZUH_IP" ]]; then
       if ! command -v /var/ossec/bin/wazuh-control &>/dev/null; then
         curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --dearmor -o /usr/share/keyrings/wazuh.gpg
         echo 'deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main' > /etc/apt/sources.list.d/wazuh.list
-        DEBIAN_FRONTEND=noninteractive apt-get update -qq
-        WAZUH_MANAGER='${WAZUH_IP}' DEBIAN_FRONTEND=noninteractive apt-get install -y -qq wazuh-agent
+        DEBIAN_FRONTEND=noninteractive apt update -qq
+        WAZUH_MANAGER='${WAZUH_IP}' DEBIAN_FRONTEND=noninteractive apt install -y -qq wazuh-agent
         systemctl enable --now wazuh-agent
       fi
 

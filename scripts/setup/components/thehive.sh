@@ -27,15 +27,15 @@ fi
 # ── System Prep ───────────────────────────────────────────────────────────────
 msg_info "Updating system packages"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq &>/dev/null
-apt-get upgrade -y -qq &>/dev/null
-apt-get install -y -qq curl wget gnupg apt-transport-https ca-certificates \
+apt update -qq &>/dev/null
+apt upgrade -y -qq &>/dev/null
+apt install -y -qq curl wget gnupg apt-transport-https ca-certificates \
   software-properties-common &>/dev/null
 msg_ok "System updated"
 
 # ── Java 11 ───────────────────────────────────────────────────────────────────
 msg_info "Installing Java 11"
-apt-get install -y -qq openjdk-11-jre-headless &>/dev/null
+apt install -y -qq openjdk-11-jre-headless &>/dev/null
 msg_ok "Java 11 installed"
 
 # ── Cassandra ─────────────────────────────────────────────────────────────────
@@ -43,8 +43,8 @@ msg_info "Installing Apache Cassandra"
 curl -fsSL https://downloads.apache.org/cassandra/KEYS | gpg --dearmor -o /usr/share/keyrings/cassandra.gpg 2>/dev/null
 echo "deb [signed-by=/usr/share/keyrings/cassandra.gpg] https://debian.cassandra.apache.org 40x main" \
   > /etc/apt/sources.list.d/cassandra.sources.list
-apt-get update -qq &>/dev/null
-apt-get install -y -qq cassandra &>/dev/null
+apt update -qq &>/dev/null
+apt install -y -qq cassandra &>/dev/null
 systemctl enable --now cassandra &>/dev/null
 msg_ok "Cassandra installed and running"
 
@@ -54,8 +54,8 @@ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | \
   gpg --dearmor -o /usr/share/keyrings/elasticsearch.gpg 2>/dev/null
 echo "deb [signed-by=/usr/share/keyrings/elasticsearch.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" \
   > /etc/apt/sources.list.d/elasticsearch.list
-apt-get update -qq &>/dev/null
-apt-get install -y -qq elasticsearch &>/dev/null
+apt update -qq &>/dev/null
+apt install -y -qq elasticsearch &>/dev/null
 
 # Configure for TheHive
 cat >> /etc/elasticsearch/elasticsearch.yml <<'EOF'
@@ -76,8 +76,8 @@ curl -fsSL https://archives.strangebee.com/keys/strangebee.gpg | \
   gpg --dearmor -o /usr/share/keyrings/strangebee.gpg 2>/dev/null
 echo "deb [signed-by=/usr/share/keyrings/strangebee.gpg] https://deb.strangebee.com thehive-5.x main" \
   > /etc/apt/sources.list.d/strangebee.list
-apt-get update -qq &>/dev/null
-apt-get install -y -qq thehive &>/dev/null
+apt update -qq &>/dev/null
+apt install -y -qq thehive &>/dev/null
 
 # Set permissions
 chown -R thehive:thehive /opt/thp/thehive

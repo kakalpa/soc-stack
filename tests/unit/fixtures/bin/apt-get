@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-CALLS_LOG="${MOCK_APTGET_CALLS_LOG:-${BATS_TEST_TMPDIR:-/tmp}/apt-get-calls.log}"
-echo "apt-get $*" >> "$CALLS_LOG"
+CALLS_LOG="${MOCK_APTGET_CALLS_LOG:-${BATS_TEST_TMPDIR:-/tmp}/apt-calls.log}"
+echo "apt $*" >> "$CALLS_LOG"
 exit "${MOCK_APTGET_EXIT:-0}"

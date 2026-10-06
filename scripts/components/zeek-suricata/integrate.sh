@@ -57,8 +57,8 @@ if [[ -f "${WAZUH_STATE}" ]] && [[ "$(jq -r '.status' "${WAZUH_STATE}")" == "dep
     pct exec "${vmid}" -- bash -c "
       curl -fsSL https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --dearmor -o /usr/share/keyrings/wazuh.gpg
       echo 'deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main' > /etc/apt/sources.list.d/wazuh.list
-      apt-get update -qq
-      WAZUH_MANAGER='${wazuh_mgr}' DEBIAN_FRONTEND=noninteractive apt-get install -y -qq wazuh-agent
+      apt update -qq
+      WAZUH_MANAGER='${wazuh_mgr}' DEBIAN_FRONTEND=noninteractive apt install -y -qq wazuh-agent
       systemctl enable --now wazuh-agent
     "
     log "Wazuh agent installed"

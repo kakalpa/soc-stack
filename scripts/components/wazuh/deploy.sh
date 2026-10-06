@@ -76,8 +76,8 @@ fi
 
 log "Updating apt"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq
-apt-get install -y -qq curl wget gnupg jq
+apt update -qq
+apt install -y -qq curl wget gnupg jq
 
 log "Downloading Wazuh installer"
 cd /root

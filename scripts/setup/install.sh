@@ -174,8 +174,8 @@ check_dependencies() {
   for dep in "${deps[@]}"; do
     if ! command -v "$dep" &>/dev/null; then
       msg_info "Installing ${dep}"
-      apt-get update -qq &>/dev/null
-      apt-get install -y -qq "$dep" &>/dev/null
+      apt update -qq &>/dev/null
+      apt install -y -qq "$dep" &>/dev/null
       msg_ok "Installed ${dep}"
     fi
   done

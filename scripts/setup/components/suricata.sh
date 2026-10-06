@@ -27,19 +27,19 @@ fi
 # ── System Prep ───────────────────────────────────────────────────────────────
 msg_info "Updating system packages"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq &>/dev/null
-apt-get upgrade -y -qq &>/dev/null
-apt-get install -y -qq curl wget gnupg software-properties-common &>/dev/null
+apt update -qq &>/dev/null
+apt upgrade -y -qq &>/dev/null
+apt install -y -qq curl wget gnupg software-properties-common &>/dev/null
 msg_ok "System updated"
 
 # ── Suricata Installation ────────────────────────────────────────────────────
 msg_info "Adding Suricata PPA"
 add-apt-repository -y ppa:oisf/suricata-stable &>/dev/null
-apt-get update -qq &>/dev/null
+apt update -qq &>/dev/null
 msg_ok "PPA added"
 
 msg_info "Installing Suricata"
-apt-get install -y -qq suricata suricata-update &>/dev/null
+apt install -y -qq suricata suricata-update &>/dev/null
 msg_ok "Suricata installed"
 
 # ── Configure ─────────────────────────────────────────────────────────────────

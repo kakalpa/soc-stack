@@ -47,8 +47,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 if [[ "${all_active}" -eq 0 ]]; then
   log "installing deps"
-  apt-get update -qq
-  apt-get install -y -qq curl git ca-certificates jq openssl python3-pip python3-venv
+  apt update -qq
+  apt install -y -qq curl git ca-certificates jq openssl python3-pip python3-venv
 
   # Wait for DNS + connectivity (LXC may not be fully online yet)
   for _ in $(seq 1 30); do
@@ -59,7 +59,7 @@ if [[ "${all_active}" -eq 0 ]]; then
   if ! command -v node >/dev/null 2>&1 || (( "$(node -v | sed 's/[v.]/ /g' | awk '{print $1}')" < 20 )); then
     log "installing Node.js 20"
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-    apt-get install -y -qq nodejs
+    apt install -y -qq nodejs
   fi
 
   # Install mcp-proxy: bridges stdio MCP servers to SSE endpoints.

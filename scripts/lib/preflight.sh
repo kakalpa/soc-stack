@@ -32,7 +32,7 @@ check_deps() {
     command -v "${dep}" >/dev/null 2>&1 || missing+=("${dep}")
   done
   if [[ ${#missing[@]} -gt 0 ]]; then
-    msg_error "missing dependencies: ${missing[*]} (install with: apt-get install -y ${missing[*]})"
+    msg_error "missing dependencies: ${missing[*]} (install with: apt install -y ${missing[*]})"
     return 1
   fi
 }
@@ -54,7 +54,7 @@ check_storage() {
 }
 
 # bootstrap_deps
-# Installs missing required deps (jq curl wget openssl) via apt-get.
+# Installs missing required deps (jq curl wget openssl) via apt.
 # Idempotent: no-op if all are present.
 # Returns 0 on success, non-zero if any install fails.
 bootstrap_deps() {
@@ -69,12 +69,12 @@ bootstrap_deps() {
   fi
 
   msg_info "installing missing deps: ${missing[*]}"
-  if ! apt-get update -qq >/dev/null 2>&1; then
-    msg_error "apt-get update failed"
+  if ! apt update -qq >/dev/null 2>&1; then
+    msg_error "apt update failed"
     return 1
   fi
-  if ! apt-get install -y -qq "${missing[@]}" >/dev/null 2>&1; then
-    msg_error "apt-get install failed for: ${missing[*]}"
+  if ! apt install -y -qq "${missing[@]}" >/dev/null 2>&1; then
+    msg_error "apt install failed for: ${missing[*]}"
     return 1
   fi
   msg_ok "installed: ${missing[*]}"

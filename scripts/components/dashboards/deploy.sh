@@ -65,14 +65,14 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 log "updating apt"
-apt-get update -qq
-apt-get install -y -qq nginx git python3-venv curl jq
+apt update -qq
+apt install -y -qq nginx git python3-venv curl jq
 
 # Install Node 20 from NodeSource if not already present or too old
 if ! command -v node >/dev/null 2>&1 || [[ "$(node -v | cut -d. -f1 | tr -d v)" -lt 20 ]]; then
   log "installing Node.js 20 from NodeSource"
   curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-  apt-get install -y -qq nodejs
+  apt install -y -qq nodejs
 fi
 log "node $(node -v), npm $(npm -v)"
 

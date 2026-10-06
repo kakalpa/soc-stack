@@ -27,15 +27,15 @@ fi
 # ── System Prep ───────────────────────────────────────────────────────────────
 msg_info "Updating system packages"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq &>/dev/null
-apt-get upgrade -y -qq &>/dev/null
-apt-get install -y -qq curl wget gnupg apt-transport-https ca-certificates \
+apt update -qq &>/dev/null
+apt upgrade -y -qq &>/dev/null
+apt install -y -qq curl wget gnupg apt-transport-https ca-certificates \
   software-properties-common python3 python3-pip &>/dev/null
 msg_ok "System updated"
 
 # ── Java 11 ───────────────────────────────────────────────────────────────────
 msg_info "Installing Java 11"
-apt-get install -y -qq openjdk-11-jre-headless &>/dev/null
+apt install -y -qq openjdk-11-jre-headless &>/dev/null
 msg_ok "Java 11 installed"
 
 # ── Elasticsearch 7.x ────────────────────────────────────────────────────────
@@ -45,8 +45,8 @@ if ! systemctl is-active --quiet elasticsearch 2>/dev/null; then
     gpg --dearmor -o /usr/share/keyrings/elasticsearch.gpg 2>/dev/null
   echo "deb [signed-by=/usr/share/keyrings/elasticsearch.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" \
     > /etc/apt/sources.list.d/elasticsearch.list
-  apt-get update -qq &>/dev/null
-  apt-get install -y -qq elasticsearch &>/dev/null
+  apt update -qq &>/dev/null
+  apt install -y -qq elasticsearch &>/dev/null
 
   cat >> /etc/elasticsearch/elasticsearch.yml <<'EOF'
 cluster.name: cortex
@@ -69,8 +69,8 @@ curl -fsSL https://archives.strangebee.com/keys/strangebee.gpg | \
   gpg --dearmor -o /usr/share/keyrings/strangebee.gpg 2>/dev/null
 echo "deb [signed-by=/usr/share/keyrings/strangebee.gpg] https://deb.strangebee.com cortex-3.x main" \
   > /etc/apt/sources.list.d/cortex.list
-apt-get update -qq &>/dev/null
-apt-get install -y -qq cortex &>/dev/null
+apt update -qq &>/dev/null
+apt install -y -qq cortex &>/dev/null
 
 # Configure Cortex
 mkdir -p /opt/cortex/analyzers /opt/cortex/responders
@@ -94,7 +94,7 @@ msg_ok "Cortex 3.x installed"
 
 # ── Install Analyzers ────────────────────────────────────────────────────────
 msg_info "Downloading Cortex analyzers"
-if command -v git &>/dev/null || apt-get install -y -qq git &>/dev/null; then
+if command -v git &>/dev/null || apt install -y -qq git &>/dev/null; then
   git clone https://github.com/TheHive-Project/Cortex-Analyzers.git \
     /opt/cortex/Cortex-Analyzers &>/dev/null 2>&1 || true
   ln -sf /opt/cortex/Cortex-Analyzers/analyzers/* /opt/cortex/analyzers/ 2>/dev/null || true

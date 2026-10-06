@@ -27,9 +27,9 @@ fi
 # ── System Prep ───────────────────────────────────────────────────────────────
 msg_info "Updating system packages"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq &>/dev/null
-apt-get upgrade -y -qq &>/dev/null
-apt-get install -y -qq curl wget git &>/dev/null
+apt update -qq &>/dev/null
+apt upgrade -y -qq &>/dev/null
+apt install -y -qq curl wget git &>/dev/null
 msg_ok "System updated"
 
 # ── MISP Install ─────────────────────────────────────────────────────────────
